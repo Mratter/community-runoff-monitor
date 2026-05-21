@@ -1,0 +1,30 @@
+[project]
+name = "community-runoff-monitor"
+version = "0.1.0"
+description = "A Streamlit dashboard for community water quality and runoff awareness."
+requires-python = ">=3.11"
+dependencies = [
+  "streamlit>=1.36",
+  "pandas>=2.2",
+  "numpy>=1.26",
+  "requests>=2.32",
+  "plotly>=5.22",
+  "pydeck>=0.9",
+  "pytest>=8.2",
+  "scikit-learn>=1.5",
+  "joblib>=1.4",
+  "python-dotenv>=1.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
