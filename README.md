@@ -9,7 +9,7 @@ A community-facing Streamlit dashboard that tracks stormwater runoff risk across
 ## Features
 
 - **Live runoff risk scores** — transparent, rule-based scoring across four components: recent rainfall, stream/gage condition, turbidity proxy, and forecast precipitation
-- **Five preloaded U.S. regions** — covers Sligo Creek MD, Rock Creek DC, Peachtree Creek GA, Brays Bayou TX, and the LA River CA
+- **Five preloaded U.S. regions** — covers Sligo Creek MD, Waimanalo Stream HI, Peachtree Creek GA, Brays Bayou TX, and the LA River CA
 - **Trends & history** — view cached historical snapshots and export data as CSV
 - **Field observations** — submit and log on-the-ground notes per region
 - **Methodology tab** — explains exactly how every score is calculated, including known data gaps
@@ -81,7 +81,7 @@ Open the URL shown in the terminal. Use the sidebar to switch regions. The `ADMI
 | Region | USGS Site | Notes |
 |---|---:|---|
 | Sligo Creek — Takoma Park, MD | 01650800 | Default region |
-| Rock Creek — Washington, DC | 01648000 | Long streamflow record |
+| Waimanalo Stream — Oahu, HI | 16249000 | Tropical runoff with turbidity |
 | Peachtree Creek — Atlanta, GA | 02336300 | Urban runoff focus |
 | Brays Bayou — Houston, TX | 08075000 | Stormwater monitoring |
 | Los Angeles River — Sepulveda Dam, CA | 11092450 | Water quality & sediment |
@@ -218,7 +218,7 @@ flowchart TD
 | Region | Notes |
 |---|---|
 | Sligo Creek — Takoma Park, MD | Turbidity readings can be sparse or absent. |
-| Rock Creek — Washington, DC | Legacy IV endpoint currently returns no live readings for this station's parameters. |
+| Waimanalo Stream — Oahu, HI | Usually provides live discharge, gage height, and turbidity readings. |
 | Peachtree Creek — Atlanta, GA | Individual parameters can appear/disappear by station. |
 | Brays Bayou — Houston, TX | Water-quality proxies may be limited. |
 | Los Angeles River — Sepulveda Dam, CA | Not every requested stream parameter is always present. |

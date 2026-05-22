@@ -16,6 +16,7 @@ load_dotenv(BASE_DIR / ".env")
 APP_NAME = "Community Water Quality and Runoff Monitor"
 DEFAULT_REGION_SLUG = "sligo-creek-md"
 ADMIN_TOKEN_ENV = "ADMIN_TOKEN"
+RETIRED_REGION_SLUGS = ("rock-creek-dc",)
 
 PARAMETER_CODES = {
     "00060": "Discharge",
@@ -45,17 +46,20 @@ DEFAULT_REGIONS = [
         ),
     },
     {
-        "slug": "rock-creek-dc",
-        "display_name": "Rock Creek — Washington, DC",
-        "waterway_name": "Rock Creek",
-        "city": "Washington",
-        "state": "DC",
-        "usgs_site_no": "01648000",
-        "latitude": 38.9725,
-        "longitude": -77.0400,
-        "timezone": "America/New_York",
+        "slug": "waimanalo-stream-hi",
+        "display_name": "Waimanalo Stream — Oahu, HI",
+        "waterway_name": "Waimanalo Stream",
+        "city": "Waimanalo / Oahu",
+        "state": "HI",
+        "usgs_site_no": "16249000",
+        "latitude": 21.34997222,
+        "longitude": -157.7289167,
+        "timezone": "Pacific/Honolulu",
         "map_zoom": 13,
-        "description": "Urban creek in Rock Creek Park with a long USGS streamflow record.",
+        "description": (
+            "Tropical windward Oahu stream with live discharge, gage-height, and turbidity coverage; "
+            "a strong contrast to the mainland urban runoff sites."
+        ),
     },
     {
         "slug": "peachtree-creek-ga",
@@ -102,9 +106,9 @@ DEFAULT_REGIONS = [
 
 REGION_DATA_NOTES = {
     "sligo-creek-md": "Current USGS instantaneous values are usually available for discharge and gage context.",
-    "rock-creek-dc": (
-        "USGS site 01648000 has a long historical streamflow record, but the legacy USGS instantaneous-values "
-        "endpoint currently returns no current readings for the parameters this app requests."
+    "waimanalo-stream-hi": (
+        "Current USGS instantaneous values are usually available for discharge, gage height, and turbidity, "
+        "making this a data-rich tropical runoff contrast site."
     ),
     "peachtree-creek-ga": "Current USGS instantaneous values are usually available for stream and water-quality context.",
     "brays-bayou-tx": "Current USGS instantaneous values are usually available for stream/gage context.",

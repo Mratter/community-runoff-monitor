@@ -24,11 +24,56 @@ def test_region_seeding_creates_all_default_regions(tmp_path):
     assert all(region["usgs_site_no"] for region in regions)
 
 
-def test_rock_creek_documents_current_usgs_instantaneous_value_limitation():
-    note = get_region_data_note("rock-creek-dc")
+def test_region_catalog_replaces_weak_rock_creek_with_waimanalo_stream():
+    slugs = [region["slug"] for region in DEFAULT_REGIONS]
+
+    assert "rock-creek-dc" not in slugs
+    assert "waimanalo-stream-hi" in slugs
+
+
+def test_waimanalo_documents_turbidity_richness():
+    note = get_region_data_note("waimanalo-stream-hi")
 
     assert note is not None
-    assert "instantaneous" in note.lower()
+    assert "turbidity" in note.lower()
+
+
+def test_region_seeding_deactivates_retired_rock_creek_from_existing_database(tmp_path):
+    db_path = tmp_path / "runoff.db"
+    conn = init_db(db_path)
+    timestamp = datetime(2026, 5, 21, 12, tzinfo=timezone.utc).isoformat()
+    conn.execute(
+        """
+        INSERT INTO regions (
+            slug, display_name, waterway_name, city, state, description, latitude, longitude,
+            map_zoom, usgs_site_no, timezone, is_active, sort_order, created_at, updated_at
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?)
+        """,
+        (
+            "rock-creek-dc",
+            "Rock Creek — Washington, DC",
+            "Rock Creek",
+            "Washington",
+            "DC",
+            "Retired weak live-data region.",
+            38.9725,
+            -77.0400,
+            13,
+            "01648000",
+            "America/New_York",
+            1,
+            timestamp,
+            timestamp,
+        ),
+    )
+    conn.commit()
+
+    seed_regions(conn)
+    active_slugs = [region["slug"] for region in get_active_regions(conn)]
+
+    assert "rock-creek-dc" not in active_slugs
+    assert "waimanalo-stream-hi" in active_slugs
 
 
 def test_selected_region_queries_filter_sensor_readings(tmp_path):

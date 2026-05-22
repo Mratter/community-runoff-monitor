@@ -9,7 +9,7 @@ from typing import Any, Iterable
 
 import pandas as pd
 
-from src.config import DB_PATH, DEFAULT_REGIONS, ensure_data_dirs
+from src.config import DB_PATH, DEFAULT_REGIONS, RETIRED_REGION_SLUGS, ensure_data_dirs
 from src.validation import validate_field_observation, validate_region_payload
 
 
@@ -208,6 +208,12 @@ CREATE INDEX IF NOT EXISTS idx_ml_predictions_model_run ON ml_predictions(region
 
 def seed_regions(conn: sqlite3.Connection) -> None:
     now = _iso(_utc_now())
+    if RETIRED_REGION_SLUGS:
+        placeholders = ", ".join("?" for _ in RETIRED_REGION_SLUGS)
+        conn.execute(
+            f"UPDATE regions SET is_active = 0, updated_at = ? WHERE slug IN ({placeholders})",
+            (now, *RETIRED_REGION_SLUGS),
+        )
     for sort_order, region in enumerate(DEFAULT_REGIONS):
         cleaned = validate_region_payload(region)
         conn.execute(
